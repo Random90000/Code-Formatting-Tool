@@ -1,5 +1,5 @@
-module StrMap = Map.Make (String);;(*для занчений*)
-module StrSet = Set.Make (String);;(*строки*)
+module StrMap = Map.Make (String);;(*пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ*)
+module StrSet = Set.Make (String);;(*пїЅпїЅпїЅпїЅпїЅпїЅ*)
 
 let print_string_third (a,b,c) = 
  Printf.printf "(%s, %s, %s) " a b c ;;
@@ -25,16 +25,16 @@ let print_bool a = if a then print_string "true" else print_string "false";;
 type charclass = Paren | SingleQuote | DoubleQuote | HashChar |
 	WordChar | SeparatorChar | MiscOpChar | Colons | Comma
 
-type tokenclass = TextBeginT | SeparatorT | KeyWordT | OpT | NumT (*для начала файла; разделители; ключевые слова; операцииж числа*)
- | CharT | StringT (*чары ; строки*)
- | NameT | CapNameT | PunctT | CommentT | TailCommentT (*имена; имена с большой буквы; действия; двойные комментврии; одинарные*)
+type tokenclass = TextBeginT | SeparatorT | KeyWordT | OpT | NumT (*пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ; пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ; пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ; пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ*)
+ | CharT | StringT (*пїЅпїЅпїЅпїЅ ; пїЅпїЅпїЅпїЅпїЅпїЅ*)
+ | NameT | CapNameT | PunctT | CommentT | TailCommentT (*пїЅпїЅпїЅпїЅпїЅ; пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ; пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ; пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ; пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ*)
 
-(*функция, список -> поиск по ключу в таблице*) 
+(*пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ -> пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ*) 
 let rec first_successful func = function
  h::t -> (try func h with |_ -> first_successful func t)
  | [] -> raise Not_found ;;
 
-(*возвращает элемент с наибольшим значением из StrMap.t*)
+(*пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ StrMap.t*)
 let max_val_entry = 
  StrMap.fold (fun k v (maxk,maxv) -> if v > maxv then (k,v) else (maxk, maxv)) ;;
 
@@ -51,7 +51,7 @@ let char_class = function
 
 let isdigit = function '0'..'9' -> true | _ ->false ;;
 
-(*ключевые слова http://caml.inria.fr/pub/docs/manual-ocaml-312/manual044.html *)
+(*пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ http://caml.inria.fr/pub/docs/manual-ocaml-312/manual044.html *)
 let ocaml_keywords = [
 	"and"; "as"; "assert"; 
 	"begin"; 
@@ -70,18 +70,18 @@ let ocaml_keywords = [
 	"when"; "while"; "with";
 ] ;;
 
-(*дерево для всех ключевых слов*)
+(*пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ*)
 let keyword_set = List.fold_right StrSet.add ocaml_keywords StrSet.empty ;;
 
-(* читает из потока символы, пока не встретится завершающий символ е (не предваряемый нечетным числом обратных слэшей).*)
+(* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ (пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ).*)
 let rec read_to f e esc lst =
  let c = try input_char f with _ -> '\000' in
   if c <> '\000' then
    if esc || c <> e then read_to f e ((not esc) && c = '\\') (c::lst)
-   else c::lst (*лишний символ*)
+   else c::lst (*пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ*)
   else lst ;;
 
-(*читает из потока символы, пока не встретится завершающая комбинация символов (e1, e2).*)
+(*пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (e1, e2).*)
 let rec read_plain_to_2 f e1 e2 lst =
  let c = try input_char f with _ -> '\000' in
   if c <> '\000' then
@@ -95,14 +95,14 @@ let rec read_plain_to_2 f e1 e2 lst =
    else c::lst
   else lst ;;
 
-(*читает из c1 и далее из потока символы, пока выполняется условие.
-  последний символ, для которого условие не выпонилось, или (в случае окончания данных) '\000', также входит в возвращеемый (обратный) список.*)
+(*пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ c1 пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+  пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ (пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ) '\000', пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ) пїЅпїЅпїЅпїЅпїЅпїЅ.*)
 let rec read_to_after f cont c1 lst =
  if cont c1 then let c2 = try input_char f with _ -> '\000' in
   read_to_after f cont c2 (c1::lst)
- else c1::lst (*лишний*);;
+ else c1::lst (*пїЅпїЅпїЅпїЅпїЅпїЅ*);;
 	
-(*символы, которые могут продолжать число*)
+(*пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ*)
 let continues_num = function	
  '0'..'9' | '.' | 'a'..'z' | 'A'..'Z' -> true
  | _ -> false ;;
@@ -111,9 +111,9 @@ let revCharList2str l =
  let s = String.make (List.length l) '\000' in
  ignore(List.fold_right (fun x i -> s.[i]<-x; i+1) l 0); s ;;
 
-(*токен, перевернутый список, список токенов ->
-  добавляет токен, строковое значение которого представлено обратным сиском символов, в цепочку, обеспечивая чередование значимых лексем
-  разделителями, а также определяя принадлежность слова к ключевым словам*)
+(*пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ->
+  пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+  пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ*)
 let addtok tokClass revCharLst revTokLst =
  match revCharLst with
   [] when tokClass <> TextBeginT -> revTokLst
@@ -147,14 +147,14 @@ let rec read_caml_r f c1 c2 lst =
   	in  let tok_class =  match cc1 with
   		WordChar when isdigit c1 -> NumT
   		| WordChar -> if Char.lowercase c1 = c1 then
-  			NameT (* можно поменять в KeywordT*)
+  			NameT (* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ KeywordT*)
   			else CapNameT
   		| MiscOpChar -> OpT 
 		| SeparatorChar -> SeparatorT
   		| _ -> PunctT
   	in let rd = read_to_after f cont_func c2 [c1] in
   		read_caml_r f (List.hd rd) '\000' (addtok tok_class (List.tl rd) lst) 
-  	| Paren | Comma -> if c1 = '(' && c2 ='*' then (*для комментариев*)
+  	| Paren | Comma -> if c1 = '(' && c2 ='*' then (*пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ*)
   		read_caml_r f '\000' '\000' (addtok CommentT ( read_plain_to_2 f '*' ')' [c2; c1]) lst) else
   		read_caml_r f c2 '\000' (addtok PunctT [c1] lst)
   	| HashChar -> read_caml_r f '\000' '\000' (addtok TailCommentT (
@@ -163,13 +163,13 @@ let rec read_caml_r f c1 c2 lst =
   		if c2 = '\\' then read_caml_r f '\000' '\000' (addtok CharT (read_to f '\'' true [c2;c1]) lst)
   		else if c2 = '\'' then read_caml_r f c2 '\000' (addtok PunctT [c1] lst) 
   		else let c3 = try input_char f with _-> '\000' in 
-  		if c3 = '\'' (*для чаров*)
+  		if c3 = '\'' (*пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ*)
   		  then  read_caml_r f '\000' '\000' (addtok CharT [c3;c2;c1] lst)
   		  else read_caml_r f c2 c3 (addtok PunctT [c1] lst) 
 	| DoubleQuote -> if c2 <> '"' then read_caml_r f '\000' '\000' (addtok StringT (read_to f '\"' false [c2;c1]) lst)
 							else read_caml_r f '\000' '\000' (addtok StringT [c2;c1] lst) ;;
 							
-(*читает файл на языке OCaml, создавая цепочку токенов, в котором нечетные позиции занимают значащие лексемы, а четные - разделители *)
+(*пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ OCaml, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ *)
 let read_caml f = 
  addtok TextBeginT [] (List.rev (read_caml_r f '\000' '\000' [])) ;;
 
@@ -201,7 +201,7 @@ let rec fold_chain_sep proc_fun acc = function
  | [_] | [_;_] -> acc
  | _ -> raise (Invalid_argument "Badly formed chain: needs to be separator interlaced") ;;
 
-(*заменяет разделители в цепочке на возвращаемые map_fun *)
+(*пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ map_fun *)
 let map_separators map_fun chain = 
  let rec r out_lst = function
   t1::(SeparatorT,s)::t2::tail -> r ((SeparatorT,map_fun t1 s t2)::t1::out_lst) (t2::tail)
@@ -210,57 +210,57 @@ let map_separators map_fun chain =
   | _ -> raise (Invalid_argument "Badly formed chain: needs to be separator interlaced")
  in List.rev(r [] chain) ;;
 	
-(*подсчет совпадений по ключам*)
+(*пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ*)
 let inc_table key1 key2	table = 
  let e1 = try StrMap.find key1 table with _ -> StrMap.empty in
   let n2 = try StrMap.find key2 e1 with _ -> 0 in 
   StrMap.add key1 (StrMap.add key2 (n2 + 1) e1)  table ;;
 		
-(*формирует конкретные и обобщенные ключи для пары последовательных лексем*)
+(*пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ*)
 let pair_keys k1 k2 = 
 [String.concat "_" [k1;k2]; String.concat "_" [k1;"any"];
  String.concat "_" ["any";k2]; String.concat "_" ["any";"any"] ] ;;
 
-(*добавить в таблицу тройку лексема-разделитель-лексема*)
+(*пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ*)
 let inc_table_with_toks tok1 sep tok2 table =
  let k1 = token2key tok1 and k2 = token2key tok2 and ks = separators2key sep in
  List.fold_right (fun kp t -> inc_table kp ks t) (pair_keys k1 k2) table ;;
 
-(*делает дерево с упорядоченными по убыванию разделителями*) 
+(*пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ*) 
 let best_separator best_map tok1 _ tok2 =
  let k1 = token2key tok1 and k2 = token2key tok2 in
   key2separators (first_successful (fun k -> StrMap.find k best_map) (pair_keys k1 k2)) ;;
 
-(*чтение цепочки токенов программы - эталона*)
-let trf = open_in "train.ml" in
+(*пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅ*)
+let trf = open_in "train.txt" in
 let tr_chain = read_caml trf in
 close_in trf;
 
-(*подсчет числа разделителей для всех пар лексем*)
+(*пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ*)
 let scores = fold_chain_sep inc_table_with_toks StrMap.empty tr_chain in
 
-(*выбор наилучшего разделителя для каждой пары лексем*)
+(*пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ*)
 let most_popular_seps = 
  StrMap.fold (fun k e a -> StrMap.add k (let sk,_ = max_val_entry e ("",-1) in sk) a) scores StrMap.empty  in 
-(*чтение цепочки токенов преобразуемой программы*)
-let tsf = open_in "test.ml" in
+(*пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ*)
+let tsf = open_in "test.txt" in
 let ts_chain = read_caml tsf in
 close_in tsf;
-(*вывод таблицы статистики по разделителям пар лексем*)
+(*пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ*)
 let otf = open_out "ml_sep_count.tab" in
 StrMap.iter (
 	fun k1 e -> StrMap.iter (
 	  Printf.fprintf otf "%s %s %d\n" k1) e
 	 ) scores;
 close_out otf;
-(*вывод таблицы наилучших разделителей пар лексем *)
+(*пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ *)
 let otb = open_out "ml_sep_best.tab" in
 StrMap.iter (Printf.fprintf otb "%s -> %s\n") most_popular_seps;
 close_out otb;
-(*замена разделителей лексем *)
+(*пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ *)
 let out_chain = map_separators (best_separator most_popular_seps) ts_chain in
-(*вывод отформатированного файла*)
-let ofm = open_out "formatted.out.ml" in
+(*пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ*)
+let ofm = open_out "formatted.out" in
 output_string ofm (List.fold_right (fun (_,ts) a-> ts ^ a) out_chain "");
 close_out ofm;;
 
